@@ -27,14 +27,16 @@ public class CreateAppend extends JPanel {
       Image qr_image,info_image;
       BufferedImage  bi;
       String filename,path;
-      public CreateAppend(int s,String path,String qr,String filename){
+      public CreateAppend(int s,String path,String qr,String filename,String barPath){
         this.filename=filename;
         this.path=path;
         qr_icon=new ImageIcon(path+"/QR/"+qr);
 
-String pathBarra="C:/xampp/tomcat/webapps/ServicioSicccap/Imagenes/barra.png";
-System.out.println(pathBarra);
-        info_icon=new ImageIcon(pathBarra);
+
+
+
+System.out.println(barPath);
+        info_icon=new ImageIcon(barPath);
         info_image=info_icon.getImage();
         qr_image=qr_icon.getImage();
         this.setBackground(Color.WHITE);

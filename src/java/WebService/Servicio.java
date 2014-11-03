@@ -73,7 +73,7 @@ public class Servicio  implements ImplementServicio  {
         
         String pathQr=qr.CreateQR(hashtext, NameFile);
         
-        CreateAppend ap=new CreateAppend(w,fa.getGeneralPath(),pathQr,FileName);
+        CreateAppend ap=new CreateAppend(w,fa.getGeneralPath(),pathQr,FileName,fa.getbarPath());
         String append=ap.save();
         AppendImage ai=new AppendImage(fa.getGeneralPath(),append,imagen,FileName);
         String final_img=ai.Append();

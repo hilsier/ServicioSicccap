@@ -27,6 +27,7 @@ import java.net.Inet4Address;
 public class FileAux {
 
     String path = System.getProperty("catalina.base") + "/webapps/ServicioSicccap/Imagenes";//Dejen esta ruta...
+String pathAppend=System.getProperty("catalina.base") + "/webapps/ServicioSicccap/barra.png";
 String ImageFolder=path+"/Images";
 String ZipFolder=path+"/ZipFiles";
 String QrFolder=path+"/QR";
@@ -210,6 +211,11 @@ return ImageFolder;
     public String getFolderQR(){
 
         return QrFolder;
+    }
+
+    public String getbarPath(){
+
+        return pathAppend;
     }
 
     public String getPathAbsolute(String path)throws UnknownHostException{

@@ -33,7 +33,7 @@ public class AppendImage {
              Type=imagen.getType();
              
          } catch (IOException ex) {
-            System.err.println(ex.getMessage());
+            System.out.println(ex.getMessage());
          }
      }
       

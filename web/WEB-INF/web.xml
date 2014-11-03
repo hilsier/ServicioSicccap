@@ -6,7 +6,7 @@
 	 version="3.1">
     <session-config>
         <session-timeout>
-            30
+            120
         </session-timeout>
     </session-config>
     
@@ -16,7 +16,7 @@
         </listener-class>
     </listener>
     <servlet>
-        <servlet-name>hello</servlet-name>
+        <servlet-name>Servicio</servlet-name>
         <servlet-class>
         	com.sun.xml.ws.transport.http.servlet.WSServlet
         </servlet-class>
@@ -26,9 +26,7 @@
         <servlet-name>Servicio</servlet-name>
         <url-pattern>/Servicio</url-pattern>
     </servlet-mapping>
-    <session-config>
-        <session-timeout>120</session-timeout>
-    </session-config>
+   
     
     
     
