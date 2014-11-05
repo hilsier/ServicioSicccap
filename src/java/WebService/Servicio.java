@@ -103,7 +103,7 @@ public class Servicio  implements ImplementServicio  {
             File archivoBMP = new File(nomArch);
             PNG img = new PNG(archivoBMP);
             Ciphering cifrador = null;
-            cifrador = new XOR(); 
+            cifrador = new AES(); 
 
             byte[] mensajeCifrado = cifrador.encripta(info, pass, "AES");
             if (getExt(archivoBMP.getName()).equalsIgnoreCase("png")) {
@@ -130,7 +130,7 @@ public class Servicio  implements ImplementServicio  {
             PNG img = new PNG(archivoBMP);
             byte[] cifrado=new StegaWithPNG(img).getInfo(img, "AES");
             Ciphering cifrador=null;
-            cifrador=new XOR();
+            cifrador=new AES();
             String mensaje_txt=" -Error- ";
             String mensaje_xml=" -Error- ";
             mensaje_xml=cifrador.decripta(cifrado, pass,"LSBs");
