@@ -38,6 +38,8 @@ import javax.imageio.ImageIO;
  * @author Yarib
  */
 public class QR {
+    public int heigthQrCode=250;
+    public int widthQrCode=250;
     FileAux a;
     public QR(){
 a=new FileAux();
@@ -65,8 +67,8 @@ return hashtext;
     }
       
       private BufferedImage invertirColores(BufferedImage imagen) {
-        for (int i = 0; i < 170; i++) {
-            for (int j = 0; j < 170; j++) {
+        for (int i = 0; i < heigthQrCode; i++) {
+            for (int j = 0; j < widthQrCode; j++) {
                 int rgb = imagen.getRGB(i, j);
                 if (rgb == -16777216) {
                     imagen.setRGB(i, j, -1);
@@ -82,11 +84,11 @@ return hashtext;
              BitMatrix bm;
              File dir = new File(a.getFolderQR());
              Writer writer = new QRCodeWriter();                                                 
-             bm = writer.encode(message, BarcodeFormat.QR_CODE, 170, 170);
+             bm = writer.encode(message, BarcodeFormat.QR_CODE,widthQrCode, heigthQrCode);
                     // Crear un buffer para escribir la imagen
-             BufferedImage imagex = new BufferedImage(170, 170, BufferedImage.TYPE_INT_RGB);
-                     for (int i = 0; i < 170; i++) {
-                         for (int j = 0; j < 170; j++) {
+             BufferedImage imagex = new BufferedImage(widthQrCode, heigthQrCode, BufferedImage.TYPE_INT_RGB);
+                     for (int i = 0; i < widthQrCode; i++) {
+                         for (int j = 0; j < heigthQrCode; j++) {
                                 int grayValue = (bm.get(j, i) ? 1 : 0) & 0xff;
                                 imagex.setRGB(j, i, (grayValue == 0 ? 0 : 0xFFFFFF));
                             }

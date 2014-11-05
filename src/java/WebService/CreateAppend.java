@@ -36,6 +36,12 @@ public class CreateAppend extends JPanel {
 
 
 System.out.println(barPath);
+File file=new File(barPath);
+
+if(file.exists()){
+
+    System.out.println("el archivo existe");
+}
         info_icon=new ImageIcon(barPath);
         info_image=info_icon.getImage();
         qr_image=qr_icon.getImage();
@@ -57,10 +63,9 @@ System.out.println(barPath);
     }
 
     public String save() throws IOException {
-        
+        repaint();
         Graphics g=bi.getGraphics();
-        paint(g);
-        
+        paint(g);    
         String name="/Images/"+filename+"append.png";
         ImageIO.write(bi, "png", new File(path+name));
         System.out.println("Saving" +path+name);

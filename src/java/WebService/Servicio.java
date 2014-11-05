@@ -16,11 +16,7 @@
 
 package WebService;
 
-import FADD.AES;
-import FADD.Ciphering;
-import FADD.PNG;
-import FADD.StegaWithPNG;
-import FADD.Text_XML;
+import FADD.*;
 import com.google.zxing.ChecksumException;
 import com.google.zxing.FormatException;
 
@@ -72,10 +68,11 @@ public class Servicio  implements ImplementServicio  {
             System.err.println(hashtext);
         
         String pathQr=qr.CreateQR(hashtext, NameFile);
-        
+        System.out.println("barpath:"+fa.getbarPath());
+
         CreateAppend ap=new CreateAppend(w,fa.getGeneralPath(),pathQr,FileName,fa.getbarPath());
         String append=ap.save();
-        AppendImage ai=new AppendImage(fa.getGeneralPath(),append,imagen,FileName);
+        AppendImage ai=new AppendImage(fa.getGeneralPath(),append,imagen,FileName); 
         String final_img=ai.Append();
         System.err.println(final_img);
              //****
@@ -83,10 +80,16 @@ public class Servicio  implements ImplementServicio  {
         String rutafirmada=firmar(message,Password,final_img);
        
        String AbsolutePath=fa.getPathAbsolute(rutafirmada);
+
        fa.DeleteFile(imagen);
         fa.DeleteFile(zipfile);
+        fa.DeleteFile(pathQr);
+        fa.DeleteFile(final_img);
+
+
         HiloSession session=new HiloSession(rutafirmada);
         session.start();
+
         return AbsolutePath;
        //return imagen;*/
 
@@ -100,7 +103,8 @@ public class Servicio  implements ImplementServicio  {
             File archivoBMP = new File(nomArch);
             PNG img = new PNG(archivoBMP);
             Ciphering cifrador = null;
-            cifrador = new AES(); 
+            cifrador = new XOR(); 
+
             byte[] mensajeCifrado = cifrador.encripta(info, pass, "AES");
             if (getExt(archivoBMP.getName()).equalsIgnoreCase("png")) {
                 StegaWithPNG stega = new StegaWithPNG(img);
@@ -126,7 +130,7 @@ public class Servicio  implements ImplementServicio  {
             PNG img = new PNG(archivoBMP);
             byte[] cifrado=new StegaWithPNG(img).getInfo(img, "AES");
             Ciphering cifrador=null;
-            cifrador=new AES();
+            cifrador=new XOR();
             String mensaje_txt=" -Error- ";
             String mensaje_xml=" -Error- ";
             mensaje_xml=cifrador.decripta(cifrado, pass,"LSBs");
