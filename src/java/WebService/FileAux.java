@@ -20,6 +20,7 @@ import java.util.zip.ZipOutputStream;
 import javax.imageio.ImageIO;
 import java.net.Inet4Address;
 import java.net.*;
+import java.util.Random;
 
 /**
  *
@@ -27,20 +28,33 @@ import java.net.*;
  */
 public class FileAux {
 
-    String path = System.getProperty("catalina.base") + "/webapps/ServicioSicccap/Imagenes";//Dejen esta ruta...
+    String path=System.getProperty("catalina.base") + "/webapps/ServicioSicccap/Imagenes";
 String pathAppend=System.getProperty("catalina.base") + "/webapps/ServicioSicccap/barra.png";
-String ImageFolder=path+"/Images";
-String ZipFolder=path+"/ZipFiles";
-String QrFolder=path+"/QR";
+public static String ImageFolder;
+public static String ZipFolder;
+public static String QrFolder;
 File fileGeneralPath;
 File fileImageFolder;
 File fileZipFolder;
 File fileQrFolder;
     public FileAux() {
-fileGeneralPath=new File(path);
-fileImageFolder=new File(ImageFolder);
-fileZipFolder=new File(ZipFolder);
-fileQrFolder=new File(QrFolder);
+       
+
+    }
+
+    public void gendir(){
+        Random r=new Random();
+        int num=r.nextInt(1+100000);
+        path=path+"/"+num;
+         ImageFolder=path+"/Images";
+         ZipFolder=path+"/ZipFiles";
+         QrFolder=path+"/QR";
+        fileGeneralPath=new File(path);
+        fileImageFolder=new File(ImageFolder);
+        fileZipFolder=new File(ZipFolder);
+        fileQrFolder=new File(QrFolder);
+        System.out.println("path actual:"+path);
+        System.out.println("zip path:"+ZipFolder);
 
 if(!fileGeneralPath.exists()||!fileImageFolder.exists()||!fileZipFolder.exists()||!fileQrFolder.exists()){
 fileGeneralPath.mkdirs();
@@ -51,11 +65,7 @@ fileQrFolder.mkdirs();
 }
 
 
-
-
-
     }
-
     String ImageName = null;
 
     public byte[] decodeBase64(String base64) {
@@ -203,13 +213,13 @@ fileQrFolder.mkdirs();
         return path;
     }
 
-    public String getFolderImage(){
+    public static String getFolderImage(){
 
 return ImageFolder;
 
     }
 
-    public String getFolderQR(){
+    public static String getFolderQR(){
 
         return QrFolder;
     }
@@ -246,10 +256,7 @@ private boolean exists(String URLName){
 
 
 
-
-
-
-
+ 
 
 
 }//fin de la calse

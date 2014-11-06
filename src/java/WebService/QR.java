@@ -82,7 +82,7 @@ return hashtext;
       
        public String CreateQR(String message,String Filename) throws WriterException, FileNotFoundException, IOException{
              BitMatrix bm;
-             File dir = new File(a.getFolderQR());
+             File dir = new File(FileAux.QrFolder);
              Writer writer = new QRCodeWriter();                                                 
              bm = writer.encode(message, BarcodeFormat.QR_CODE,widthQrCode, heigthQrCode);
                     // Crear un buffer para escribir la imagen

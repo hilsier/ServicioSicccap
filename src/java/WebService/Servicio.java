@@ -43,11 +43,14 @@ public class Servicio  implements ImplementServicio  {
         public String Firma(String bse64, String NameFile, String message) throws IOException, WriterException, NoSuchAlgorithmException {
        
 
- String Password="123";
+        String Password="123";
         FileAux fa=new FileAux();
+        fa.gendir();
         QR qr=new QR();
+       // String actualpath=fa.createdir();
+        //fa.path=actualpath;
         String zipfile=fa.CreateFile(NameFile,bse64,"zip");
-        String imagen=fa.unzipfile(zipfile,fa.getFolderImage()+"/");
+        String imagen=fa.unzipfile(zipfile,FileAux.ImageFolder+"/");
         this.FileName=fa.ImageName;
        // System.err.println("path imagen:"+imagen);
         String extension=getExt(imagen);
