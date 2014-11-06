@@ -42,7 +42,7 @@ File fileQrFolder;
 
     }
 
-    public void gendir(){
+    public String  gendir(){
         Random r=new Random();
         int num=r.nextInt(1+100000);
         path=path+"/"+num;
@@ -63,7 +63,7 @@ fileZipFolder.mkdirs();
 fileQrFolder.mkdirs();
 
 }
-
+return path;
 
     }
     String ImageName = null;

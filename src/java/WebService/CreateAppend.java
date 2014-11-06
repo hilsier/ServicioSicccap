@@ -27,6 +27,7 @@ public class CreateAppend extends JPanel {
       Image qr_image,info_image;
       BufferedImage  bi;
       String filename,path;
+      Rectangle r;
       public CreateAppend(int s,String path,String qr,String filename,String barPath){
         this.filename=filename;
         this.path=path;
@@ -47,7 +48,7 @@ if(file.exists()){
         qr_image=qr_icon.getImage();
         this.setBackground(Color.WHITE);
         this.setSize(s, 150);
-        Rectangle r=this.getBounds();
+        r=this.getBounds();
         bi=new BufferedImage(r.width,r.height-20,BufferedImage.TYPE_3BYTE_BGR); 
         System.out.println("w:"+r.width+"  h:"+r.height);
     }
@@ -71,5 +72,17 @@ if(file.exists()){
         System.out.println("Saving" +path+name);
         File f=new File(path+name);
         return f.getAbsolutePath();
+    }
+
+    public int getWidth(){
+
+return r.width;
+
+    }
+
+
+    public int getHeigth(){
+
+        return r.height;
     }
 }

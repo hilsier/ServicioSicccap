@@ -40,12 +40,15 @@ import javax.servlet.http.HttpServlet;
 public class Servicio  implements ImplementServicio  {
 
         String FileName;
+        int NumOfSigned,HeigthImage,WidthImage,NumOfRequest=0;
+        long TimeToSigned;
         public String Firma(String bse64, String NameFile, String message) throws IOException, WriterException, NoSuchAlgorithmException {
-       
+       NumOfRequest++;
 
         String Password="123";
         FileAux fa=new FileAux();
-        fa.gendir();
+        Log log=new Log();
+        String PathRandom=fa.gendir();
         QR qr=new QR();
        // String actualpath=fa.createdir();
         //fa.path=actualpath;
@@ -79,18 +82,24 @@ public class Servicio  implements ImplementServicio  {
         String final_img=ai.Append();
         System.err.println(final_img);
              //****
-        
+
+ 
+
+        TimeToSigned = System.currentTimeMillis();
         String rutafirmada=firmar(message,Password,final_img);
+       TimeToSigned = System.currentTimeMillis()-TimeToSigned;
+       WidthImage=ap.getWidth();
+       HeigthImage=ap.getHeigth();
+
        
+
+System.out.println("log created:"+log.CreateLogSigned(WidthImage,HeigthImage,NumOfRequest,TimeToSigned,NumOfSigned));
+
+
+
        String AbsolutePath=fa.getPathAbsolute(rutafirmada);
 
-       fa.DeleteFile(imagen);
-        fa.DeleteFile(zipfile);
-        fa.DeleteFile(pathQr);
-        fa.DeleteFile(final_img);
-
-
-        HiloSession session=new HiloSession(rutafirmada);
+       HiloSession session=new HiloSession(PathRandom);
         session.start();
 
         return AbsolutePath;
@@ -116,7 +125,9 @@ public class Servicio  implements ImplementServicio  {
                 boolean execStega = stega.execStega(ruta, mensajeCifrado, "LSBs");
                 System.out.println("execStega: "+execStega);
                 if (execStega) {//img.savePNG(nFile, stega.getPNG().getChunks())
-                   return ruta; 
+                   NumOfSigned++; 
+                   return ruta;
+                  
                 } else {
                     return "No se pudo salvar la imagen";}}
             } catch (java.lang.Exception ex) {
@@ -163,8 +174,7 @@ public class Servicio  implements ImplementServicio  {
         }   
     
         public String ConsultaFirma( String base64,String nameFile) throws IOException {
-
-System.out.println("base64"+base64+"namefile"+nameFile);
+         System.out.println("Consultando...");
         FileAux fa=new FileAux();
         QR qr=new QR();
         String pathfile=fa.CreateFile(nameFile,base64,"zip");
@@ -187,7 +197,7 @@ System.out.println("base64"+base64+"namefile"+nameFile);
                 System.out.println(ex.toString());
                 
             }
-            System.out.println(resultado);
+            
         fa.DeleteFile(pathImage);
         fa.DeleteFile(pathfile);
          return  resultado; 
