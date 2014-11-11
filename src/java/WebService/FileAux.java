@@ -63,6 +63,7 @@ fileZipFolder.mkdirs();
 fileQrFolder.mkdirs();
 
 }
+
 return path;
 
     }
@@ -121,6 +122,7 @@ return path;
                     // if the entry is a directory, make the directory
                     File dir = new File(fpath);
                     dir.mkdir();
+                    
                 }
                 zipIn.closeEntry();
                 entry = zipIn.getNextEntry();
@@ -128,19 +130,23 @@ return path;
                 ex.printStackTrace();
             }
         }
+
+        
         zipIn.close();
         return fpath;
     }
     private final int BUFFER_SIZE = 5096;
 
     private void extractFile(ZipInputStream zipIn, String filePath) throws IOException {
-        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(filePath));
+        FileOutputStream input=new FileOutputStream(filePath);
+        BufferedOutputStream bos = new BufferedOutputStream(input);
         byte[] bytesIn = new byte[BUFFER_SIZE];
         int read = 0;
         while ((read = zipIn.read(bytesIn)) != -1) {
             bos.write(bytesIn, 0, read);
         }
         bos.close();
+        input.close();
     }
 
     public String jpgToPng(String JPGPath) {

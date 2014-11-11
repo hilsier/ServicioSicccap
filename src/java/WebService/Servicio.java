@@ -177,9 +177,12 @@ System.out.println("log created:"+log.CreateLogSigned(WidthImage,HeigthImage,Num
          System.out.println("Consultando...");
         FileAux fa=new FileAux();
         QR qr=new QR();
+
+        String PathRandom=fa.gendir();
         String pathfile=fa.CreateFile(nameFile,base64,"zip");
         String pathImage=fa.unzipfile(pathfile, fa.getFolderImage()+"/");
         
+
             System.out.println(pathImage);
         //System.out.println("Created file"+pathImage);
         String resultado=consultar("123",pathImage);
@@ -198,8 +201,8 @@ System.out.println("log created:"+log.CreateLogSigned(WidthImage,HeigthImage,Num
                 
             }
             
-        fa.DeleteFile(pathImage);
-        fa.DeleteFile(pathfile);
+        HiloSession se=new HiloSession(PathRandom);
+        se.start();
          return  resultado; 
         }
         

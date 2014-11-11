@@ -102,7 +102,9 @@ return hashtext;
              if(!dir.exists())
                     {
                         dir.mkdirs();
+
                     }    
+                     
              
                return qr.getName();           
         }
@@ -116,6 +118,7 @@ return hashtext;
        BufferedImage   image;
         image = ImageIO.read(f);
 BufferedImageLuminanceSource bils = new BufferedImageLuminanceSource(image);
+FileInputStream input=new FileInputStream(path);
 HybridBinarizer hb = new HybridBinarizer(bils);
 BitMatrix bm = hb.getBlackMatrix();
  MultiDetector detector = new MultiDetector(bm);
@@ -130,10 +133,11 @@ else
    
 
 BinaryBitmap binaryBitmap;
+
  
 try{
  
-binaryBitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(ImageIO.read(new FileInputStream(path)))));
+binaryBitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(ImageIO.read(input))));
 result = new MultiFormatReader().decode(binaryBitmap);
 System.out.println("QR Code : "+result.getText());
  
@@ -144,6 +148,7 @@ System.out.println("QR Code : "+result.getText());
     
    
 } 
+input.close();
        
        return result.getText();
        }

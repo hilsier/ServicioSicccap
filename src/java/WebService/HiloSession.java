@@ -7,6 +7,7 @@
 package WebService;
 
 import java.io.*;
+import java.io.IOException;
 /**
  *
  * @author hilsierivan
@@ -16,6 +17,7 @@ public class HiloSession extends Thread {
     FileAux aux;
     String rutaimagen;
     File file;
+    boolean deleted=false;
     public HiloSession(String rutaimagen){
     this.rutaimagen=rutaimagen;
         aux=new FileAux();
@@ -27,30 +29,57 @@ public class HiloSession extends Thread {
             System.out.println("empezo sesion");
             Thread.sleep(60000);
             System.out.println("termino sesion");
-            System.out.println(deleteDir(file));
+            delete(file);
            
-        } catch (InterruptedException ex) {
-            System.err.println(ex.getMessage());
-        }
+        } catch (InterruptedException ex ) {
+            System.out.println(ex.getMessage());
+           
     
     }
+}
 
-public boolean deleteDir(File dir) {
-    if (dir.isDirectory()) {
-        String[] children = dir.list();
-        for (int i = 0; i < children.length; i++) {
-            boolean success = deleteDir(new File(dir, children[i]));
-            if (!success) {
-                return false;
+ public  void delete(File file){
+ 
+        if(file.isDirectory()){
+ 
+            //directory is empty, then delete it
+            if(file.list().length==0){
+ 
+               file.delete();
+               System.out.println("Directory is deleted : " 
+                                                 + file.getAbsolutePath());
+ 
+            }else{
+ 
+               //list all the directory contents
+               String files[] = file.list();
+ 
+               for (String temp : files) {
+                  //construct the file structure
+                  File fileDelete = new File(file, temp);
+ 
+                  //recursive delete
+                 delete(fileDelete);
+               }
+ 
+               //check the directory again, if empty then delete it
+               if(file.list().length==0){
+                 file.delete();
+                 System.out.println("Directory is deleted : " 
+                                                  + file.getAbsolutePath());
+               }
             }
+ 
+        }else{
+            //if file, then delete it
+            file.delete();
+            System.out.println("File is deleted : " + file.getAbsolutePath());
         }
     }
 
 
 
 
-    return dir.delete(); // The directory is empty now and can be deleted.
-}
 
 
     
