@@ -59,8 +59,10 @@ fileGeneralPath.mkdirs();
 if(!SystemName.contains("Win")){
     try{
         StringBuffer output = new StringBuffer();
+        String Command="cd "+servicePath;
+        System.out.println(Command);
 
-        Process p = Runtime.getRuntime().exec("cd "+servicePath);
+        Process p = Runtime.getRuntime().exec(Command);
         Process p2=Runtime.getRuntime().exec("chmod -R 777 Imagenes");
 
         p2.waitFor();
