@@ -56,11 +56,13 @@ File fileQrFolder;
 
 if(!fileGeneralPath.exists()||!fileImageFolder.exists()||!fileZipFolder.exists()||!fileQrFolder.exists()){
 fileGeneralPath.mkdirs();
+fileGeneralPath.setReadable(true);
+fileGeneralPath.setWritable(true);
 if(!SystemName.contains("Win")){
     try{
         StringBuffer output = new StringBuffer();
         
-        Process p2=Runtime.getRuntime().exec("chmod -R 777 "+path);
+        Process p2=Runtime.getRuntime().exec("chmod 2777 "+path);
 
         p2.waitFor();
         BufferedReader reader =  new BufferedReader(new InputStreamReader(p2.getInputStream()));
