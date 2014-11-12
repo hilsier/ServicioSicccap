@@ -39,7 +39,7 @@ File fileQrFolder;
 
     }
 
-    public String  gendir(){
+    public String  gendir()throws InterruptedException{
             String SystemName=System.getProperty("os.name");
         Random r=new Random();
         int num=r.nextInt(1+100000);
@@ -58,10 +58,23 @@ if(!fileGeneralPath.exists()||!fileImageFolder.exists()||!fileZipFolder.exists()
 fileGeneralPath.mkdirs();
 if(!SystemName.contains("Win")){
     try{
-Process p = Runtime.getRuntime().exec("chmod 777 "+servicePath);
+        StringBuffer output = new StringBuffer();
+        Process p = Runtime.getRuntime().exec("chmod 777 "+servicePath);
+        p.waitFor();
+        BufferedReader reader =  new BufferedReader(new InputStreamReader(p.getInputStream()));
+         String line = "";           
+            while ((line = reader.readLine())!= null) {
+                output.append(line + "\n");
+            }
+            System.out.println(line);
+
+
+
+
 }
 catch(IOException e){
     System.out.println(e.toString());
+    
 }
 
 }
