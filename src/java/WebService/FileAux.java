@@ -56,6 +56,9 @@ File fileQrFolder;
 
 if(!fileGeneralPath.exists()||!fileImageFolder.exists()||!fileZipFolder.exists()||!fileQrFolder.exists()){
 fileGeneralPath.mkdirs();
+fileImageFolder.mkdirs();
+fileZipFolder.mkdirs();
+fileQrFolder.mkdirs();
 fileGeneralPath.setReadable(true);
 fileGeneralPath.setWritable(true);
 if(!SystemName.contains("Win")){
@@ -86,9 +89,7 @@ catch(IOException e){
 
 
 
-fileImageFolder.mkdirs();
-fileZipFolder.mkdirs();
-fileQrFolder.mkdirs();
+
 
 }
 
