@@ -121,7 +121,7 @@ System.out.println("log created:"+log.CreateLogSigned(WidthImage,HeigthImage,Num
             if (getExt(archivoBMP.getName()).equalsIgnoreCase("png")) {
                 StegaWithPNG stega = new StegaWithPNG(img);
                 System.out.println("Is valid: "+img.isValid());
-                ruta=aux.getFolderImage()+"/"+FileName+"Firmada.png";
+                ruta=aux.ImageFolder+"/"+FileName+"Firmada.png";
                 boolean execStega = stega.execStega(ruta, mensajeCifrado, "LSBs");
                 System.out.println("execStega: "+execStega);
                 if (execStega) {//img.savePNG(nFile, stega.getPNG().getChunks())

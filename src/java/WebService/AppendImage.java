@@ -43,8 +43,9 @@ public class AppendImage {
          finalImg.createGraphics().drawImage(Barra, 0 , Height , null);
          String fname="/images/Final"+name+".png";
          System.out.println("SAVING..."+path+fname);
-         ImageIO.write(finalImg, "png", new File(path+fname));  
-         File f=new File(path+fname) ;
-         return f.getAbsolutePath();
+         String pathImage=path+fname;
+         ImageIO.write(finalImg, "png", new File(pathImage));  
+        System.out.println("guardada la imagen"+pathImage);
+         return pathImage;
      }
 }
