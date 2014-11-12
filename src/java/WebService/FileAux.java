@@ -62,7 +62,7 @@ if(!SystemName.contains("Win")){
     try{
         StringBuffer output = new StringBuffer();
         
-        Process p2=Runtime.getRuntime().exec("chmod 2777 "+path);
+        Process p2=Runtime.getRuntime().exec("sudo chmod -R ugo+rw "+path);
 
         p2.waitFor();
         BufferedReader reader =  new BufferedReader(new InputStreamReader(p2.getInputStream()));
