@@ -39,8 +39,8 @@ File fileQrFolder;
 
     }
 
-    public String  gendir()throws InterruptedException{
-            String SystemName=System.getProperty("os.name");
+    public String  gendir(){
+          
         Random r=new Random();
         int num=r.nextInt(1+100000);
         path=path+"/"+num;
@@ -61,34 +61,6 @@ fileZipFolder.mkdirs();
 fileQrFolder.mkdirs();
 fileGeneralPath.setReadable(true);
 fileGeneralPath.setWritable(true);
-if(!SystemName.contains("Win")){
-    try{
-        StringBuffer output = new StringBuffer();
-        
-        Process p2=Runtime.getRuntime().exec("chmod -R go+w /var/lib/tomcat7/webapps");
-
-        p2.waitFor();
-        BufferedReader reader =  new BufferedReader(new InputStreamReader(p2.getInputStream()));
-         String line = "";           
-            while ((line = reader.readLine())!= null) {
-                output.append(line + "\n");
-            }
-            System.out.println("\nOutput Console:"+output);
-
-
-
-
-}
-catch(IOException e){
-    System.out.println("\n Errr Run console:"+e.toString());
-    
-}
-
-}
-
-
-
-
 
 
 }
@@ -288,6 +260,27 @@ private boolean exists(String URLName){
        return false;
     }
   }
+
+ public void GiveAllPermissions()throws InterruptedException{
+      String SystemName=System.getProperty("os.name");
+if(!SystemName.contains("Win")){
+    try{
+        StringBuffer output = new StringBuffer();
+        
+        Process p2=Runtime.getRuntime().exec("chmod -R go+w /var/lib/tomcat7/webapps");
+
+        p2.waitFor();
+        BufferedReader reader =  new BufferedReader(new InputStreamReader(p2.getInputStream()));
+         String line = "";           
+            while ((line = reader.readLine())!= null) {
+                output.append(line + "\n");
+            }
+            System.out.println("\nOutput Console:"+output);}
+catch(IOException e){
+    System.out.println("\n Errr Run console:"+e.toString());
+    }}}
+
+
 
 
 

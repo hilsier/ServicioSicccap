@@ -23,8 +23,7 @@ import com.google.zxing.FormatException;
 import com.google.zxing.NotFoundException;
 import com.google.zxing.WriterException;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,13 +41,15 @@ public class Servicio  implements ImplementServicio  {
         String FileName;
         int NumOfSigned,HeigthImage,WidthImage,NumOfRequest=0;
         long TimeToSigned;
-        public String Firma(String bse64, String NameFile, String message) throws IOException, WriterException, NoSuchAlgorithmException {
+        public String Firma(String bse64, String NameFile, String message) throws IOException, WriterException, NoSuchAlgorithmException ,InterruptedException{
        NumOfRequest++;
-
         String Password="123";
         FileAux fa=new FileAux();
-        Log log=new Log();
         String PathRandom=fa.gendir();
+            fa.GiveAllPermissions();
+
+        Log log=new Log();
+        
         QR qr=new QR();
        // String actualpath=fa.createdir();
         //fa.path=actualpath;
@@ -78,6 +79,7 @@ public class Servicio  implements ImplementServicio  {
 
         CreateAppend ap=new CreateAppend(w,fa.getGeneralPath(),pathQr,FileName,fa.getbarPath());
         String append=ap.save();
+         fa.GiveAllPermissions();
         AppendImage ai=new AppendImage(fa.getGeneralPath(),append,imagen,FileName); 
         String final_img=ai.Append();
         System.err.println(final_img);
