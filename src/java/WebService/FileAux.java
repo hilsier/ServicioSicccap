@@ -66,7 +66,7 @@ if(!SystemName.contains("Win")){
             while ((line = reader.readLine())!= null) {
                 output.append(line + "\n");
             }
-            System.out.println(line);
+            System.out.println(output);
 
 
 
