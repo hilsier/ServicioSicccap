@@ -7,11 +7,7 @@ package WebService;
 
 import java.awt.image.BufferedImage;
 import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import java.util.zip.ZipEntry;
@@ -30,6 +26,7 @@ public class FileAux {
 
     String path=System.getProperty("catalina.base") + "/webapps/ServicioSicccap/Imagenes";
 String pathAppend=System.getProperty("catalina.base") + "/webapps/ServicioSicccap/barra.png";
+String servicePath=System.getProperty("catalina.base") + "/webapps/ServicioSicccap";
 public static String ImageFolder;
 public static String ZipFolder;
 public static String QrFolder;
@@ -43,6 +40,7 @@ File fileQrFolder;
     }
 
     public String  gendir(){
+            String SystemName=System.getProperty("os.name");
         Random r=new Random();
         int num=r.nextInt(1+100000);
         path=path+"/"+num;
@@ -58,6 +56,19 @@ File fileQrFolder;
 
 if(!fileGeneralPath.exists()||!fileImageFolder.exists()||!fileZipFolder.exists()||!fileQrFolder.exists()){
 fileGeneralPath.mkdirs();
+if(!SystemName.contains("Win")){
+    try{
+Process p = Runtime.getRuntime().exec("chmod 777 "+servicePath);
+}
+catch(IOException e){
+    System.out.println(e.toString());
+}
+
+}
+
+
+
+
 fileImageFolder.mkdirs();
 fileZipFolder.mkdirs();
 fileQrFolder.mkdirs();
