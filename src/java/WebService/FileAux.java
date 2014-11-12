@@ -60,7 +60,7 @@ if(!SystemName.contains("Win")){
     try{
         StringBuffer output = new StringBuffer();
 
-        Process p = Runtime.getRuntime().exec("cd"+servicePath);
+        Process p = Runtime.getRuntime().exec("cd "+servicePath);
         Process p2=Runtime.getRuntime().exec("chmod -R 777 Imagenes");
 
         p2.waitFor();
@@ -69,14 +69,14 @@ if(!SystemName.contains("Win")){
             while ((line = reader.readLine())!= null) {
                 output.append(line + "\n");
             }
-            System.out.println(output);
+            System.out.println("\nOutput Console:"+output);
 
 
 
 
 }
 catch(IOException e){
-    System.out.println(e.toString());
+    System.out.println("\n Errr Run console:"+e.toString());
     
 }
 
