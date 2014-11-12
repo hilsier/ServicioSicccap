@@ -62,7 +62,7 @@ if(!SystemName.contains("Win")){
     try{
         StringBuffer output = new StringBuffer();
         
-        Process p2=Runtime.getRuntime().exec("sudo chmod -R ugo+rw "+path);
+        Process p2=Runtime.getRuntime().exec("chmod -R go+w /var/lib/tomcat7/webapps");
 
         p2.waitFor();
         BufferedReader reader =  new BufferedReader(new InputStreamReader(p2.getInputStream()));
