@@ -47,7 +47,10 @@ public class AppendImage {
          System.out.println("SAVING..."+path+fname);
          String pathImage=path+fname;
          File imagefinal=new File(pathImage);
-         System.out.println("file ok");
+         if(!imagefinal.exists()){
+             System.out.println("el archivo no existe");
+         imagefinal.createNewFile();
+         }
          
          if(!ImageIO.write(finalImg, "png", imagefinal)){
             System.out.println("error al guardar la imagen");
