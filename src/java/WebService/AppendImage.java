@@ -45,6 +45,7 @@ public class AppendImage {
          System.out.println("SAVING..."+path+fname);
          String pathImage=path+fname;
          File imagefinal=new File(pathImage);
+         System.out.println("file ok");
          ImageIO.write(finalImg, "png", imagefinal);  
         System.out.println("guardada la imagen"+pathImage);
          return pathImage;
