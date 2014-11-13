@@ -46,8 +46,9 @@ public class AppendImage {
          String pathImage=path+fname;
         
         File dir=new File(FileAux.ImageFolder);
+         File imagefinal = null;
         if(dir.isDirectory()&&dir.canRead()&&dir.canWrite()){
-        File imagefinal=new File(FileAux.ImageFolder,"Final"+name+".png");
+        imagefinal=new File(FileAux.ImageFolder,"Final"+name+".png");
             ImageIO.write(finalImg, "png", imagefinal);
         }
         else{
@@ -57,6 +58,6 @@ public class AppendImage {
         
          
         System.out.println("guardada la imagen"+pathImage);
-         return pathImage;
+         return imagefinal.getAbsolutePath();
      }
 }
