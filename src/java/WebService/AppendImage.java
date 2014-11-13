@@ -40,6 +40,7 @@ public class AppendImage {
      public String Append() throws IOException{
          BufferedImage finalImg = new BufferedImage(Width,Height+130,BufferedImage.TYPE_3BYTE_BGR);
 
+
          finalImg.createGraphics().drawImage(imagen, 0 , 0 , null);  
          finalImg.createGraphics().drawImage(Barra, 0 , Height , null);
          String fname="/images/Final"+name+".png";
@@ -47,7 +48,11 @@ public class AppendImage {
          String pathImage=path+fname;
          File imagefinal=new File(pathImage);
          System.out.println("file ok");
-         ImageIO.write(finalImg, "png", imagefinal);  
+         
+         if(!ImageIO.write(finalImg, "png", imagefinal)){
+            System.out.println("error al guardar la imagen");
+
+         }  
         System.out.println("guardada la imagen"+pathImage);
          return pathImage;
      }
