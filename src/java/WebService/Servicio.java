@@ -100,9 +100,10 @@ System.out.println("log created:"+log.CreateLogSigned(WidthImage,HeigthImage,Num
 
 
        String AbsolutePath=fa.getPathAbsolute(rutafirmada);
-
+            System.out.println("source in path"+AbsolutePath);
        HiloSession session=new HiloSession(PathRandom);
         session.start();
+        
 
         return AbsolutePath;
        //return imagen;*/
