@@ -41,22 +41,20 @@ public class AppendImage {
          BufferedImage finalImg = new BufferedImage(Width,Height+130,BufferedImage.TYPE_3BYTE_BGR);
          finalImg.createGraphics().drawImage(imagen, 0 , 0 , null);  
          finalImg.createGraphics().drawImage(Barra, 0 , Height , null);
-         String fname=FileAux.ImageFolder+"Final"+name+".png";
+         String fname=FileAux.ImageFolder+"/Final"+name+".png";
          System.out.println("SAVING FINAL IMAGE..."+path+fname);
          String pathImage=path+fname;
         
-         File imagefinal=new File(pathImage);
-         if(!imagefinal.exists()){
-             System.out.println("el archivo no existe");
-         imagefinal.mkdir();
-         imagefinal.createNewFile();
-        imagefinal.setReadable(true);
-        imagefinal.setWritable(true);
-        
-         }
-          finalImg=ImageIO.read(new File(pathImage));
+        File dir=new File(FileAux.ImageFolder);
+        if(dir.isDirectory()&&dir.canRead()&&dir.canWrite()){
+        File imagefinal=new File(FileAux.ImageFolder,"Final"+name+".png");
+            ImageIO.write(finalImg, "png", imagefinal);
+        }
+        else{
+        System.out.println("invalid directory");
+        }
        
-        ImageIO.write(finalImg, "png", imagefinal);
+        
          
         System.out.println("guardada la imagen"+pathImage);
          return pathImage;
