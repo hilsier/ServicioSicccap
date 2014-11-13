@@ -49,7 +49,8 @@ public class AppendImage {
          File imagefinal=new File(pathImage);
          if(!imagefinal.exists()){
              System.out.println("el archivo no existe");
-         imagefinal.createNewFile();
+         imagefinal.mkdirs();
+        
          }
          
          if(!ImageIO.write(finalImg, "png", imagefinal)){
