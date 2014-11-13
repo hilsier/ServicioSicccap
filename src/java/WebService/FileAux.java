@@ -239,6 +239,7 @@ return ImageFolder;
     public String getPathAbsolute(String path)throws UnknownHostException{
  String ip=Inet4Address.getLocalHost().getHostAddress();
  String array[]=path.split("ServicioSicccap");
+        
 String pathAbsolute=ip+":8080/ServicioSicccap"+array[1];
 
 

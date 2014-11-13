@@ -82,7 +82,7 @@ public class Servicio  implements ImplementServicio  {
          fa.GiveAllPermissions();
         AppendImage ai=new AppendImage(fa.getGeneralPath(),append,imagen,FileName); 
         String final_img=ai.Append();
-        System.err.println(final_img);
+        System.err.println("ruta imagen a firmar"+final_img);
              //****
 
  
@@ -124,7 +124,7 @@ System.out.println("log created:"+log.CreateLogSigned(WidthImage,HeigthImage,Num
             if (getExt(archivoBMP.getName()).equalsIgnoreCase("png")) {
                 StegaWithPNG stega = new StegaWithPNG(img);
                 System.out.println("Is valid: "+img.isValid());
-                ruta=aux.ImageFolder+"/"+FileName+"Firmada.png";
+                ruta=FileAux.ImageFolder+"/"+FileName+"Firmada.png";
                 boolean execStega = stega.execStega(ruta, mensajeCifrado, "LSBs");
                 System.out.println("execStega: "+execStega);
                 if (execStega) {//img.savePNG(nFile, stega.getPNG().getChunks())
@@ -135,7 +135,7 @@ System.out.println("log created:"+log.CreateLogSigned(WidthImage,HeigthImage,Num
                     return "No se pudo salvar la imagen";}}
             } catch (java.lang.Exception ex) {
             ex.printStackTrace();
-            return "Error: al abrir "+nomArch;
+            return "Error: al abrir "+ruta;
         }
         return ruta;
     }
