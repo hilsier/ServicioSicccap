@@ -119,7 +119,8 @@ System.out.println("log created:"+log.CreateLogSigned(WidthImage,HeigthImage,Num
         try {
             File dirImage=new File(FileAux.ImageFolder);
             
-            if(dirImage.canRead()&&dirImage.canRead()&&dirImage.canWrite()){
+            if(dirImage.isDirectory()&&dirImage.canRead()&&dirImage.canWrite()){
+                System.out.println("directory is valid");
              archivoBMP = new File(FileAux.ImageFolder,FileName);
              img = new PNG(archivoBMP);
             
