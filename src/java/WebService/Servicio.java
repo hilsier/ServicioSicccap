@@ -114,9 +114,19 @@ System.out.println("log created:"+log.CreateLogSigned(WidthImage,HeigthImage,Num
     private String firmar(String info, String pass, String nomArch){
             String ruta="";
             FileAux aux =new FileAux();
+            File archivoBMP =null;
+            PNG img=null;
         try {
-            File archivoBMP = new File(nomArch);
-            PNG img = new PNG(archivoBMP);
+            File dirImage=new File(FileAux.ImageFolder);
+            
+            if(dirImage.canRead()&&dirImage.canRead()&&dirImage.canWrite()){
+             archivoBMP = new File(FileAux.ImageFolder,FileName);
+             img = new PNG(archivoBMP);
+            
+            }else{
+                System.out.println("no es un directorio valido");
+            }
+           
             Ciphering cifrador = null;
             cifrador = new AES(); 
 
