@@ -33,12 +33,13 @@ public class AppendImage {
              Type=imagen.getType();
              
          } catch (IOException ex) {
-            System.out.println(ex.getMessage());
+            System.out.println("Error al abrir los append"+ex.getMessage());
          }
      }
       
      public String Append() throws IOException{
-         BufferedImage finalImg = new BufferedImage(Width,Height+130,BufferedImage.TYPE_3BYTE_BGR); 
+         BufferedImage finalImg = new BufferedImage(Width,Height+130,BufferedImage.TYPE_3BYTE_BGR);
+
          finalImg.createGraphics().drawImage(imagen, 0 , 0 , null);  
          finalImg.createGraphics().drawImage(Barra, 0 , Height , null);
          String fname="/images/Final"+name+".png";
