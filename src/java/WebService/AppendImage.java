@@ -39,22 +39,23 @@ public class AppendImage {
       
      public String Append() throws IOException{
          BufferedImage finalImg = new BufferedImage(Width,Height+130,BufferedImage.TYPE_3BYTE_BGR);
-
-
          finalImg.createGraphics().drawImage(imagen, 0 , 0 , null);  
          finalImg.createGraphics().drawImage(Barra, 0 , Height , null);
-         String fname="/images/Final"+name+".png";
-         System.out.println("SAVING..."+path+fname);
+         String fname=FileAux.ImageFolder+"Final"+name+".png";
+         System.out.println("SAVING FINAL IMAGE..."+path+fname);
          String pathImage=path+fname;
         
          File imagefinal=new File(pathImage);
          if(!imagefinal.exists()){
              System.out.println("el archivo no existe");
          imagefinal.mkdir();
+         imagefinal.createNewFile();
+        imagefinal.setReadable(true);
+        imagefinal.setWritable(true);
         
          }
           finalImg=ImageIO.read(new File(pathImage));
-         
+       
         ImageIO.write(finalImg, "png", imagefinal);
          
         System.out.println("guardada la imagen"+pathImage);
