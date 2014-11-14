@@ -121,7 +121,7 @@ System.out.println("log created:"+log.CreateLogSigned(WidthImage,HeigthImage,Num
             
             if(dirImage.isDirectory()&&dirImage.canRead()&&dirImage.canWrite()){
                 System.out.println("directory is valid");
-             archivoBMP = new File(FileAux.ImageFolder,FileName+".png");
+             archivoBMP = new File(nomArch);
              img = new PNG(archivoBMP);
             
             }else{
