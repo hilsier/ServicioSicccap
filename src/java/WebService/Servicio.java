@@ -21,6 +21,7 @@ import com.google.zxing.ChecksumException;
 import com.google.zxing.FormatException;
 
 import com.google.zxing.NotFoundException;
+import com.google.zxing.ReaderException;
 import com.google.zxing.WriterException;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -187,7 +188,7 @@ System.out.println("log created:"+log.CreateLogSigned(WidthImage,HeigthImage,Num
         return new String(nChar, 0, 3);
         }   
     
-        public String ConsultaFirma( String base64,String nameFile) throws IOException {
+        public String ConsultaFirma( String base64,String nameFile) throws IOException, IOException, IOException, IOException, IOException, IOException {
          System.out.println("Consultando...");
         FileAux fa=new FileAux();
         QR qr=new QR();
@@ -213,6 +214,10 @@ System.out.println("log created:"+log.CreateLogSigned(WidthImage,HeigthImage,Num
             } catch (NotFoundException | FormatException | ChecksumException | NoSuchAlgorithmException ex) {
                 System.out.println(ex.toString());
                 
+            } catch (IOException ex) {
+                Logger.getLogger(Servicio.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ReaderException ex) {
+                Logger.getLogger(Servicio.class.getName()).log(Level.SEVERE, null, ex);
             }
             
         HiloSession se=new HiloSession(PathRandom);

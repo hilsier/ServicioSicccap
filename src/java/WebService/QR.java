@@ -12,6 +12,7 @@ import com.google.zxing.ChecksumException;
 import com.google.zxing.FormatException;
 import com.google.zxing.MultiFormatReader;
 import com.google.zxing.NotFoundException;
+import com.google.zxing.ReaderException;
 import com.google.zxing.Result;
 import com.google.zxing.Writer;
 import com.google.zxing.WriterException;
@@ -109,7 +110,7 @@ return hashtext;
                return qr.getName();           
         }
        
-       public String ReadQr(String path) throws NotFoundException, FormatException, ChecksumException, IOException{
+       public String ReadQr(String path) throws NotFoundException, FormatException, ChecksumException, IOException, ReaderException{
            
            
          
