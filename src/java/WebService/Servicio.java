@@ -28,7 +28,7 @@ public class Servicio  implements ImplementServicio  {
         String FileName;String Password="04020649";
         int NumOfSigned,HeigthImage,WidthImage,NumOfRequest=0;
         long TimeToSigned;
-        public String Firma(String bse64, String NameFile, String message) throws IOException, WriterException, NoSuchAlgorithmException ,InterruptedException{
+        public String Firma(String bse64, String NameFile, String message) throws IOException, WriterException, NoSuchAlgorithmException ,InterruptedException,Exception{
         NumOfRequest++;
         FileAux fa=new FileAux();
         String PathRandom=fa.gendir();
@@ -127,7 +127,6 @@ public class Servicio  implements ImplementServicio  {
             String mensaje_xml=" -Error- ";
             mensaje_xml=cifrador.decripta(cifrado, pass,"LSBs");
             mensaje_xml=mensaje_xml!=null?mensaje_xml:"";
-
             if(mensaje_xml.startsWith("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>")){
                 Text_XML txtxml = new Text_XML();
                 mensaje_txt = txtxml.toText(mensaje_xml, "\n");
@@ -151,33 +150,38 @@ public class Servicio  implements ImplementServicio  {
 
 
     
-    public String ConsultaFirma( String base64,String nameFile) throws IOException, IOException, IOException, IOException, IOException, IOException {
-        System.out.println("Consultando...");
+    public String ConsultaFirma( String base64,String nameFile) throws IOException, IOException, IOException, IOException, IOException, IOException,Exception {
+        System.out.println("Consultando.");
         FileAux fa=new FileAux();
         QR qr=new QR();
         String PathRandom=fa.gendir();
         String pathfile=fa.CreateFile(nameFile,base64,"zip");
         String pathImage=fa.unzipfile(pathfile, fa.getFolderImage()+"/");
         System.out.println(pathImage);
-        //System.out.println("Created file"+pathImage);
-        String resultado=consultar(Password,pathImage);
+        System.out.println("Created file"+pathImage);
+        String tempo=fa.GetSubImage(pathImage);
+        String resultado="Nada";
             try {
-                if(qr.ReadQr(pathImage).equals(qr.getHash(resultado))){
                 
-                resultado=resultado+"la informacion del qr coincide";
+                String qr_read=qr.ReadQr(pathImage);
+                String imghash=fa.getHash(tempo);
+                System.out.println("QR..."+qr_read);
+                System.out.println("imagen..."+imghash);
+                if(qr.ReadQr(pathImage).equals(fa.getHash(tempo))){
+                resultado=consultar(Password,pathImage);
+                resultado=resultado+" Todo Bien. ";
                 }
                 
                 else{
-                
-                resultado=resultado+"la informacion del qr NO coincide";
+                resultado="Imagen No Valida...Qr no coincide";
                 }
-            } catch (NotFoundException | FormatException | ChecksumException | NoSuchAlgorithmException ex) {
+            } catch (NotFoundException | FormatException | ChecksumException ex) {
                 System.out.println(ex.toString());
                 
             } catch (IOException ex) {
-                Logger.getLogger(Servicio.class.getName()).log(Level.SEVERE, null, ex);
+               System.out.println(ex.getMessage());
             } catch (ReaderException ex) {
-                Logger.getLogger(Servicio.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println(ex.getMessage());
             }
             
         HiloSession se=new HiloSession(PathRandom);

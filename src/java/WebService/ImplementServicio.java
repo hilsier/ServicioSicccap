@@ -21,6 +21,6 @@ import javax.jws.soap.SOAPBinding.Style;
 @SOAPBinding(style = Style.RPC)
 
 public interface ImplementServicio {
-   @WebMethod String Firma(String bse64, String NameFile, String message) throws IOException, WriterException, NoSuchAlgorithmException,InterruptedException;
-  @WebMethod String ConsultaFirma( String base64,String nameFile) throws IOException ;
+   @WebMethod String Firma(String bse64, String NameFile, String message) throws IOException, WriterException, NoSuchAlgorithmException,InterruptedException,Exception;
+  @WebMethod String ConsultaFirma( String base64,String nameFile) throws IOException,Exception;
 }
