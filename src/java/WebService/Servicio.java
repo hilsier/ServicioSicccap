@@ -1,18 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 package WebService;
 
@@ -39,77 +25,55 @@ import javax.servlet.http.HttpServlet;
 @WebService(endpointInterface = "WebService.ImplementServicio")
 public class Servicio  implements ImplementServicio  {
 
-        String FileName;
+        String FileName;String Password="04020649";
         int NumOfSigned,HeigthImage,WidthImage,NumOfRequest=0;
         long TimeToSigned;
         public String Firma(String bse64, String NameFile, String message) throws IOException, WriterException, NoSuchAlgorithmException ,InterruptedException{
-       NumOfRequest++;
-        String Password="123";
+        NumOfRequest++;
         FileAux fa=new FileAux();
         String PathRandom=fa.gendir();
-            fa.GiveAllPermissions();
-
-        Log log=new Log();
-        
+        fa.GiveAllPermissions();
+        Log log=new Log(); 
         QR qr=new QR();
        // String actualpath=fa.createdir();
         //fa.path=actualpath;
         String zipfile=fa.CreateFile(NameFile,bse64,"zip");
-        String imagen=fa.unzipfile(zipfile,FileAux.ImageFolder+"/");
+        String imagen=fa.unzipfile(zipfile,fa.getFolderImage());
         this.FileName=fa.ImageName;
-       // System.err.println("path imagen:"+imagen);
+        System.out.println("\npath imagen:"+imagen);
         String extension=getExt(imagen);
               switch(extension){
               case "jpg":
-             // System.err.println("archivo es jpg");
-              imagen=fa.jpgToPng(imagen);  
+              imagen=fa.jpgToPng(imagen,FileName);  
               break;
               case "JPG":
-               //   System.err.println("archivo es jpg");
-              imagen=fa.jpgToPng(imagen);  break;          
+              imagen=fa.jpgToPng(imagen,FileName);  break;          
       }
+
+      System.out.println("\npath imagen2:"+imagen);
               //****
         File f=new File(imagen);
         BufferedImage bi= ImageIO.read(f);
         int w=bi.getWidth();
-        String hashtext=qr.getHash(message);
-            System.err.println(hashtext);
-        
+        String rutafirmada=firmar(message,Password,imagen);
+        String hashtext=fa.getHash(rutafirmada);
+        System.out.println("Hash de la imagen... "+hashtext);
         String pathQr=qr.CreateQR(hashtext, NameFile);
         System.out.println("barpath:"+fa.getbarPath());
-
         CreateAppend ap=new CreateAppend(w,fa.getGeneralPath(),pathQr,FileName,fa.getbarPath());
         String append=ap.save();
-         fa.GiveAllPermissions();
-        AppendImage ai=new AppendImage(fa.getGeneralPath(),append,imagen,FileName); 
+        fa.GiveAllPermissions();
+        AppendImage ai=new AppendImage(fa.getGeneralPath(),append,rutafirmada,FileName); 
         String final_img=ai.Append();
-        System.err.println("ruta imagen a firmar"+final_img);
-             //****
-
- 
-
         TimeToSigned = System.currentTimeMillis();
-        String rutafirmada=firmar(message,Password,final_img);
-       TimeToSigned = System.currentTimeMillis()-TimeToSigned;
-       WidthImage=ap.getWidth();
-       HeigthImage=ap.getHeigth();
-
-       
-
-System.out.println("log created:"+log.CreateLogSigned(WidthImage,HeigthImage,NumOfRequest,TimeToSigned,NumOfSigned));
-
-
-
-       String AbsolutePath=fa.getPathAbsolute(rutafirmada);
-            System.out.println("source in path"+AbsolutePath);
+        TimeToSigned = System.currentTimeMillis()-TimeToSigned;
+        WidthImage=ap.getWidth();
+        HeigthImage=ap.getHeigth();
+// System.out.println("log created:"+log.CreateLogSigned(WidthImage,HeigthImage,NumOfRequest,TimeToSigned,NumOfSigned));
+       String AbsolutePath=fa.getPathAbsolute(final_img);
        HiloSession session=new HiloSession(PathRandom);
         session.start();
-        
-
-        return AbsolutePath;
-       //return imagen;*/
-
-        
+        return AbsolutePath;        
     }
     
     private String firmar(String info, String pass, String nomArch){
@@ -119,11 +83,10 @@ System.out.println("log created:"+log.CreateLogSigned(WidthImage,HeigthImage,Num
             PNG img=null;
         try {
             File dirImage=new File(FileAux.ImageFolder);
-            
             if(dirImage.isDirectory()&&dirImage.canRead()&&dirImage.canWrite()){
-                System.out.println("directory is valid");
-             archivoBMP = new File(nomArch);
-             img = new PNG(archivoBMP);
+            System.out.println("directory is valid");
+            archivoBMP = new File(nomArch);
+            img = new PNG(archivoBMP);
             
             }else{
                 System.out.println("no es un directorio valido");
@@ -181,26 +144,23 @@ System.out.println("log created:"+log.CreateLogSigned(WidthImage,HeigthImage,Num
     }
     
     private String getExt(String fileName) {
-        if (fileName.length() < 0) {
-            return null;
-        }
-        char[] nChar = new char[]{fileName.charAt(fileName.length() - 3), fileName.charAt(fileName.length() - 2), fileName.charAt(fileName.length() - 1)};
-        return new String(nChar, 0, 3);
-        }   
+         if (fileName.length() < 0) {return null; }
+         char[] nChar = new char[]{fileName.charAt(fileName.length() - 3), fileName.charAt(fileName.length() - 2), fileName.charAt(fileName.length() - 1)};
+         return new String(nChar, 0, 3);
+        } 
+
+
     
-        public String ConsultaFirma( String base64,String nameFile) throws IOException, IOException, IOException, IOException, IOException, IOException {
-         System.out.println("Consultando...");
+    public String ConsultaFirma( String base64,String nameFile) throws IOException, IOException, IOException, IOException, IOException, IOException {
+        System.out.println("Consultando...");
         FileAux fa=new FileAux();
         QR qr=new QR();
-
         String PathRandom=fa.gendir();
         String pathfile=fa.CreateFile(nameFile,base64,"zip");
         String pathImage=fa.unzipfile(pathfile, fa.getFolderImage()+"/");
-        
-
-            System.out.println(pathImage);
+        System.out.println(pathImage);
         //System.out.println("Created file"+pathImage);
-        String resultado=consultar("123",pathImage);
+        String resultado=consultar(Password,pathImage);
             try {
                 if(qr.ReadQr(pathImage).equals(qr.getHash(resultado))){
                 

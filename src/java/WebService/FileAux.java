@@ -17,6 +17,10 @@ import javax.imageio.ImageIO;
 import java.net.Inet4Address;
 import java.net.*;
 import java.util.Random;
+import javax.imageio.ImageIO;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -42,7 +46,7 @@ File fileQrFolder;
     public String  gendir(){
           
         Random r=new Random();
-        int num=r.nextInt(1+100000);
+        int num=r.nextInt(1+10000000);
         path=path+"/"+num;
          ImageFolder=path+"/Images";
          ZipFolder=path+"/ZipFiles";
@@ -55,14 +59,12 @@ File fileQrFolder;
         System.out.println("zip path:"+ZipFolder);
 
 if(!fileGeneralPath.exists()||!fileImageFolder.exists()||!fileZipFolder.exists()||!fileQrFolder.exists()){
-fileGeneralPath.mkdirs();
-fileImageFolder.mkdirs();
-fileZipFolder.mkdirs();
-fileQrFolder.mkdirs();
-fileGeneralPath.setReadable(true);
-fileGeneralPath.setWritable(true);
-
-
+        fileGeneralPath.mkdirs();
+        fileImageFolder.mkdirs();
+        fileZipFolder.mkdirs();
+        fileQrFolder.mkdirs();
+        fileGeneralPath.setReadable(true);
+        fileGeneralPath.setWritable(true);
 }
 
 return path;
@@ -101,7 +103,7 @@ return path;
             System.out.println(ex.toString());
             return "failed";
         }
-    }// fin del metodo
+    }
 
     public String unzipfile(String zpath, String path) throws FileNotFoundException, IOException {
         String fname = null;
@@ -116,14 +118,12 @@ return path;
             try {
                 fname = entry.getName();
                 ImageName = fname.substring(0, fname.length() - 4);
-                fpath = path + entry.getName();
+                fpath = path+"/"+entry.getName();
                 if (!entry.isDirectory()) {
                     extractFile(zipIn, fpath);
                 } else {
-                    // if the entry is a directory, make the directory
                     File dir = new File(fpath);
-                    dir.mkdir();
-                    
+                    dir.mkdir();   
                 }
                 zipIn.closeEntry();
                 entry = zipIn.getNextEntry();
@@ -150,22 +150,17 @@ return path;
         input.close();
     }
 
-    public String jpgToPng(String JPGPath) {
+    public String jpgToPng(String JPGPath,String name) {
 
         File output;
         try {
             File input = new File(JPGPath);
             BufferedImage image = ImageIO.read(input);
-            String ar[] = JPGPath.split("\\.");
-            System.err.println(ar.length);
-            String PNGPath = ar[0];
-            output = new File(PNGPath + ".png");
+            output = new File(ImageFolder+"/"+name+".png");
             ImageIO.write(image, "png", output);
         } catch (IOException ex) {
             return ex.toString();
         }
-   //     System.err.println(output.getAbsolutePath());
-        //  System.err.println(output.getPath());
 
         return output.getPath();
     }
@@ -177,43 +172,6 @@ return path;
         }
     }
 
-    public String zipFile(String pathToCompress, String NameFile) {
-
-        System.out.println("path to compress:" + pathToCompress);
-        String[] path = pathToCompress.split("/");
-        String compress = path[path.length - 1];
-        System.out.println("path last:" + compress);
-        byte[] buffer = new byte[100000];
-        String zipath = ZipFolder +"/"+ NameFile + "Firmado.zip";
-
-        try {
-
-            FileOutputStream fos = new FileOutputStream(zipath);
-            ZipOutputStream zos = new ZipOutputStream(fos);
-            ZipEntry ze = new ZipEntry(compress);
-            zos.putNextEntry(ze);
-
-            FileInputStream in = new FileInputStream(pathToCompress);
-
-            int len;
-            while ((len = in.read(buffer)) > 0) {
-                zos.write(buffer, 0, len);
-            }
-
-            in.close();
-            zos.closeEntry();
-
-            //remember close it
-            zos.close();
-
-            System.out.println("Done");
-            return zipath;
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-
-    }
 
     public String getGeneralPath() throws UnknownHostException {
         
@@ -221,38 +179,31 @@ return path;
     }
 
     public static String getFolderImage(){
-
-return ImageFolder;
+        return ImageFolder;
 
     }
 
     public static String getFolderQR(){
-
         return QrFolder;
     }
 
     public String getbarPath(){
-
         return pathAppend;
     }
 
-    public String getPathAbsolute(String path)throws UnknownHostException{
- String ip=Inet4Address.getLocalHost().getHostAddress();
- String array[]=path.split("ServicioSicccap");
-        
-String pathAbsolute=ip+":8080/ServicioSicccap"+array[1];
+ public String getPathAbsolute(String path)throws UnknownHostException{
 
-
-return pathAbsolute;
+  String ip=Inet4Address.getLocalHost().getHostAddress();
+  String array[]=path.split("ServicioSicccap");  
+  String pathAbsolute=ip+":8080/ServicioSicccap"+array[1];
+    return pathAbsolute;
 
     }
-private boolean exists(String URLName){
+
+ private boolean exists(String URLName){
     try {
       HttpURLConnection.setFollowRedirects(false);
-      // note : you may also need
-      //        HttpURLConnection.setInstanceFollowRedirects(false)
-      HttpURLConnection con =
-         (HttpURLConnection) new URL(URLName).openConnection();
+      HttpURLConnection con =(HttpURLConnection) new URL(URLName).openConnection();
       con.setRequestMethod("HEAD");
       return (con.getResponseCode() == HttpURLConnection.HTTP_OK);
     }
@@ -264,24 +215,70 @@ private boolean exists(String URLName){
 
  public void GiveAllPermissions()throws InterruptedException{
       String SystemName=System.getProperty("os.name");
-if(!SystemName.contains("Win")){
+    if(!SystemName.contains("Win")){
     try{
         StringBuffer output = new StringBuffer();
-        
         Process p2=Runtime.getRuntime().exec("chmod -R go+w /var/lib/tomcat7/webapps");
-
         p2.waitFor();
         BufferedReader reader =  new BufferedReader(new InputStreamReader(p2.getInputStream()));
-         String line = "";           
-            while ((line = reader.readLine())!= null) {
-                output.append(line + "\n");
-            }
-            System.out.println("\nOutput Console:"+output);}
-catch(IOException e){
-    System.out.println("\n Errr Run console:"+e.toString());
-    }}}
+        String line = "";           
+         while ((line = reader.readLine())!= null) {
+            output.append(line + "\n");   }
+        System.out.println("\nOutput Console:"+output);}
+        catch(IOException e){
+        System.out.println("\n Errr Run console:"+e.toString());
+                  
+        }}}
+
+    public String getHash(String file){
+         try {
+            File input = new File(file);
+            BufferedImage buffImg = ImageIO.read(input);
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            ImageIO.write(buffImg, "png", outputStream);
+            byte[] data = outputStream.toByteArray();  
+            System.out.println("Start MD5 Digest");
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(data);
+            byte[] hash = md.digest();
+            return returnHex(hash);
+        } catch (IOException | NoSuchAlgorithmException ex) {
+            System.err.println(ex.getMessage());
+            return null;
+        } catch (Exception ex) {
+           System.err.println(ex.getMessage());
+           return null;
+        } 
 
 
+        }
+
+  static String returnHex(byte[] inBytes) throws Exception {
+       String hexString = "";
+        for (int i=0; i < inBytes.length; i++) { //for loop ID:1
+        hexString +=
+        Integer.toString( ( inBytes[i] & 0xff ) + 0x100, 16).substring( 1 );
+        }                                  
+                return hexString;
+  }                
+
+
+
+    public String GetSubImage(String image){
+        String retpath=null;
+     try {
+        BufferedImage bi= ImageIO.read(new File(image));
+        int w=bi.getWidth(); int h=bi.getHeight()-130;
+        BufferedImage bic=new BufferedImage(w,h,BufferedImage.TYPE_3BYTE_BGR);
+        bic= bi.getSubimage(0, 0,w,h);
+        retpath=image+"tempo.png";
+        ImageIO.write(bic, "png", new File(retpath));
+            } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return retpath;
+
+        }
 
 
 
