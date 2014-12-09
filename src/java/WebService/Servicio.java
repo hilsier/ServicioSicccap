@@ -67,9 +67,11 @@ public class Servicio  implements ImplementServicio  {
         HeigthImage=ap.getHeigth();
 // System.out.println("log created:"+log.CreateLogSigned(WidthImage,HeigthImage,NumOfRequest,TimeToSigned,NumOfSigned));
        String AbsolutePath=fa.getPathAbsolute(final_img);
+       String retornar=AbsolutePath.replace("\\","/");
+       System.out.println("AbsolutePath: "+AbsolutePath);
        HiloSession session=new HiloSession(PathRandom);
         session.start();
-        return AbsolutePath;        
+        return retornar;        
     }
     
     private String firmar(String info, String pass, String nomArch){
