@@ -262,13 +262,13 @@ return path;
                 return hexString;
   }                
 
-
-
     public String GetSubImage(String image){
         String retpath=null;
      try {
         BufferedImage bi= ImageIO.read(new File(image));
-        int w=bi.getWidth(); int h=bi.getHeight()-130;
+        int w=bi.getWidth(); 
+        int aux=w/5;
+        int h=bi.getHeight()-aux;
         BufferedImage bic=new BufferedImage(w,h,BufferedImage.TYPE_3BYTE_BGR);
         bic= bi.getSubimage(0, 0,w,h);
         retpath=image+"tempo.png";

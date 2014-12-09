@@ -35,12 +35,9 @@ public class Servicio  implements ImplementServicio  {
         fa.GiveAllPermissions();
         Log log=new Log(); 
         QR qr=new QR();
-       // String actualpath=fa.createdir();
-        //fa.path=actualpath;
         String zipfile=fa.CreateFile(NameFile,bse64,"zip");
         String imagen=fa.unzipfile(zipfile,fa.getFolderImage());
         this.FileName=fa.ImageName;
-        System.out.println("\npath imagen:"+imagen);
         String extension=getExt(imagen);
               switch(extension){
               case "jpg":
@@ -50,7 +47,6 @@ public class Servicio  implements ImplementServicio  {
               imagen=fa.jpgToPng(imagen,FileName);  break;          
       }
 
-      System.out.println("\npath imagen2:"+imagen);
               //****
         File f=new File(imagen);
         BufferedImage bi= ImageIO.read(f);
