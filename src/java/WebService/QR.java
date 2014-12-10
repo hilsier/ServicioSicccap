@@ -39,8 +39,8 @@ import javax.imageio.ImageIO;
  * @author Yarib
  */
 public class QR {
-    public int heigthQrCode=250;
-    public int widthQrCode=250;
+    public int heigthQrCode=2200;
+    public int widthQrCode=2200;
     FileAux a;
     public QR(){
 a=new FileAux();
@@ -110,7 +110,7 @@ return hashtext;
                return qr.getName();           
         }
        
-       public String ReadQr(String path) throws NotFoundException, FormatException, ChecksumException, IOException, ReaderException{
+       public String ReadQr(String path) throws  FormatException, ChecksumException, IOException, ReaderException{
            
            
          

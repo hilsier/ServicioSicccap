@@ -5,10 +5,10 @@ package WebService;
 import FADD.*;
 import com.google.zxing.ChecksumException;
 import com.google.zxing.FormatException;
-
 import com.google.zxing.NotFoundException;
 import com.google.zxing.ReaderException;
 import com.google.zxing.WriterException;
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.security.NoSuchAlgorithmException;
@@ -31,6 +31,7 @@ public class Servicio  implements ImplementServicio  {
         public String Firma(String bse64, String NameFile, String message) throws IOException, WriterException, NoSuchAlgorithmException ,InterruptedException,Exception{
         NumOfRequest++;
         FileAux fa=new FileAux();
+        Ciphering cifra=new AES();
         String PathRandom=fa.gendir();
         fa.GiveAllPermissions();
         Log log=new Log(); 
@@ -54,7 +55,11 @@ public class Servicio  implements ImplementServicio  {
         String rutafirmada=firmar(message,Password,imagen);
         String hashtext=fa.getHash(rutafirmada);
         System.out.println("Hash de la imagen... "+hashtext);
-        String pathQr=qr.CreateQR(hashtext, NameFile);
+        
+        byte []CifradoHash=cifra.encripta(hashtext,Password,"AES");
+        String baseCifradoHash=  Base64.encode(CifradoHash);
+        
+        String pathQr=qr.CreateQR(baseCifradoHash, NameFile);
         System.out.println("barpath:"+fa.getbarPath());
         CreateAppend ap=new CreateAppend(w,fa.getGeneralPath(),pathQr,FileName,fa.getbarPath());
         String append=ap.save();
@@ -152,6 +157,7 @@ public class Servicio  implements ImplementServicio  {
         System.out.println("Consultando.");
         FileAux fa=new FileAux();
         QR qr=new QR();
+        Ciphering cifrar=new AES();
         String PathRandom=fa.gendir();
         String pathfile=fa.CreateFile(nameFile,base64,"zip");
         String pathImage=fa.unzipfile(pathfile, fa.getFolderImage()+"/");
@@ -162,10 +168,12 @@ public class Servicio  implements ImplementServicio  {
             try {
                 
                 String qr_read=qr.ReadQr(pathImage);
+                byte []baseOfQr=Base64.decode(qr_read);
                 String imghash=fa.getHash(tempo);
-                System.out.println("QR..."+qr_read);
-                System.out.println("imagen..."+imghash);
-                if(qr.ReadQr(pathImage).equals(fa.getHash(tempo))){
+               System.out.println("hash imagen consultada..."+imghash);
+                
+                String hashOfQr=cifrar.decripta(baseOfQr,Password, "AES");
+                 if(hashOfQr.equals(fa.getHash(tempo))){
                 resultado=consultar(Password,pathImage);
                 resultado=resultado+" Todo Bien. ";
                 }
