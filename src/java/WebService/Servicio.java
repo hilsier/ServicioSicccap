@@ -153,47 +153,57 @@ public class Servicio  implements ImplementServicio  {
 
 
     
-    public String ConsultaFirma( String base64,String nameFile) throws IOException, IOException, IOException, IOException, IOException, IOException,Exception {
-        System.out.println("Consultando.");
-        FileAux fa=new FileAux();
-        QR qr=new QR();
-        Ciphering cifrar=new AES();
-        String PathRandom=fa.gendir();
-        String pathfile=fa.CreateFile(nameFile,base64,"zip");
-        String pathImage=fa.unzipfile(pathfile, fa.getFolderImage()+"/");
-        //System.out.println(pathImage);
-        //System.out.println("Created file"+pathImage);
-        String tempo=fa.GetSubImage(pathImage);
-        String resultado="Imagen no Firmada.";
+    public String ConsultaFirma(String base64, String nameFile) {
+            System.out.println("Consultando.");
+            FileAux fa = new FileAux();
+            QR qr = new QR();
+            Ciphering cifrar = new AES();
+            String PathRandom = fa.gendir();
+            String pathfile = fa.CreateFile(nameFile, base64, "zip");
+            String pathImage = null;
             try {
-                
-                String qr_read=qr.ReadQr(pathImage);
-                byte []baseOfQr=Base64.decode(qr_read);
-                String imghash=fa.getHash(tempo);
-                System.out.println("hash imagen consultada..."+imghash);
-                
-                String hashOfQr=cifrar.decripta(baseOfQr,Password, "AES");
-            if(hashOfQr.equals(fa.getHash(tempo))){
-                resultado=consultar(Password,pathImage);
-                resultado=resultado+" \nTodo Bien. ";
-                }
-                
-            else{
-                resultado="La información de la imagen no coincide… La imagen pudo haber sido alterada.";
-                }
-            } catch (NotFoundException | FormatException | ChecksumException ex) {
-                System.out.println(ex.toString());
-                //resultado="No se puede leer el QR.";
+            pathImage = fa.unzipfile(pathfile, fa.getFolderImage() + "/");
             } catch (IOException ex) {
-               System.out.println(ex.getMessage());
-            } catch (ReaderException ex) {
-                System.out.println(ex.getMessage());
+            Logger.getLogger(Servicio.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-        HiloSession se=new HiloSession(PathRandom);
-        se.start();
-         return  resultado; 
-        }
+                System.out.println(pathImage);
+                System.out.println("Created file" + pathImage);
+                String tempo = fa.GetSubImage(pathImage);
+                String resultado = "Nada";
+                byte[] baseOfQr = null;
+                String qr_read = null;
+
+            try {
+                qr_read = qr.ReadQr(pathImage);
+            } catch (ChecksumException ex) {
+                 Logger.getLogger(Servicio.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                 Logger.getLogger(Servicio.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ReaderException ex) {
+                 Logger.getLogger(Servicio.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            if (Base64.decode(qr_read) == null) {
+            resultado = "Al parecer hubo un problema con el documento. Motivos: La imagen no ha sido firmada o no se detecta el QR.";
+            } else {
+                baseOfQr = Base64.decode(qr_read);
+                String imghash = fa.getHash(tempo);
+                String hashOfQr = "";
+
+                hashOfQr = cifrar.decripta(baseOfQr, Password, "AES");
+            if (hashOfQr.equals(fa.getHash(tempo))) {
+                resultado = consultar(Password, pathImage);
+                resultado = "Operación realizada exitosamente: \n" + resultado;
+            } else {
+            resultado = "Se ha detectado una anomalía en la firma de la imagen. Por favor contacta con el proveedor.";
+            }
+
+            HiloSession se = new HiloSession(PathRandom);
+            se.start();
+            }
+
+            return resultado;
+}
         
         
    
