@@ -38,8 +38,8 @@ public class CreateAppend extends JPanel {
         info_image=info_icon.getImage();
         qr_image=qr_icon.getImage();
         this.setBackground(Color.WHITE);
-        h=w/5;
-        this.setSize(w,h);
+        h=w/6;/////--------------tamño del append-------------///////
+        this.setSize(w,h+20);
         r=this.getBounds();
       //  bi=new BufferedImage(r.width,r.height-20,BufferedImage.TYPE_3BYTE_BGR); 
         bi=new BufferedImage(r.width,r.height,BufferedImage.TYPE_3BYTE_BGR); 
@@ -53,7 +53,7 @@ public class CreateAppend extends JPanel {
         Graphics2D g2 = (Graphics2D)g;
         g2.setColor(Color.red);
         aux=h;
-        g2.drawImage(qr_image, 100, 0, aux, aux, null);
+        g2.drawImage(qr_image, 100, 10, aux, aux, null);
         //g2.drawImage(info_image,300,20,400,100,null); 
     }
 

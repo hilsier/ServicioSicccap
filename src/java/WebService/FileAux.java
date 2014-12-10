@@ -267,8 +267,8 @@ return path;
      try {
         BufferedImage bi= ImageIO.read(new File(image));
         int w=bi.getWidth(); 
-        int aux=w/5;
-        int h=bi.getHeight()-aux;
+        int aux=w/6;/////--------------tamño del append-------------///////
+        int h=bi.getHeight()-aux-20;
         BufferedImage bic=new BufferedImage(w,h,BufferedImage.TYPE_3BYTE_BGR);
         bic= bi.getSubimage(0, 0,w,h);
         retpath=image+"tempo.png";

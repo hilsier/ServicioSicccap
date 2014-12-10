@@ -24,11 +24,12 @@ import javax.servlet.http.HttpServlet;
  */
 @WebService(endpointInterface = "WebService.ImplementServicio")
 public class Servicio  implements ImplementServicio  {
-
+       
         String FileName;String Password="04020649";
         int NumOfSigned,HeigthImage,WidthImage,NumOfRequest=0;
         long TimeToSigned;
-        public String Firma(String bse64, String NameFile, String message) throws IOException, WriterException, NoSuchAlgorithmException ,InterruptedException,Exception{
+    public String Firma(String bse64, String NameFile, String message) throws IOException, WriterException, NoSuchAlgorithmException ,InterruptedException,Exception{
+        if(bse64==null||NameFile==null||message==null){System.out.println("información Nula");}
         NumOfRequest++;
         FileAux fa=new FileAux();
         Ciphering cifra=new AES();
@@ -58,9 +59,8 @@ public class Servicio  implements ImplementServicio  {
         
         byte []CifradoHash=cifra.encripta(hashtext,Password,"AES");
         String baseCifradoHash=  Base64.encode(CifradoHash);
-        
-        String pathQr=qr.CreateQR(baseCifradoHash, NameFile);
-        System.out.println("barpath:"+fa.getbarPath());
+        String pathQr=qr.CreateQR(baseCifradoHash, NameFile,w);
+        //System.out.println("barpath:"+fa.getbarPath());
         CreateAppend ap=new CreateAppend(w,fa.getGeneralPath(),pathQr,FileName,fa.getbarPath());
         String append=ap.save();
         fa.GiveAllPermissions();
@@ -76,7 +76,7 @@ public class Servicio  implements ImplementServicio  {
        System.out.println("AbsolutePath: "+AbsolutePath);
        HiloSession session=new HiloSession(PathRandom);
         session.start();
-        return retornar;        
+        return retornar;              
     }
     
     private String firmar(String info, String pass, String nomArch){
@@ -161,29 +161,29 @@ public class Servicio  implements ImplementServicio  {
         String PathRandom=fa.gendir();
         String pathfile=fa.CreateFile(nameFile,base64,"zip");
         String pathImage=fa.unzipfile(pathfile, fa.getFolderImage()+"/");
-        System.out.println(pathImage);
-        System.out.println("Created file"+pathImage);
+        //System.out.println(pathImage);
+        //System.out.println("Created file"+pathImage);
         String tempo=fa.GetSubImage(pathImage);
-        String resultado="Nada";
+        String resultado="Imagen no Firmada.";
             try {
                 
                 String qr_read=qr.ReadQr(pathImage);
                 byte []baseOfQr=Base64.decode(qr_read);
                 String imghash=fa.getHash(tempo);
-               System.out.println("hash imagen consultada..."+imghash);
+                System.out.println("hash imagen consultada..."+imghash);
                 
                 String hashOfQr=cifrar.decripta(baseOfQr,Password, "AES");
-                 if(hashOfQr.equals(fa.getHash(tempo))){
+            if(hashOfQr.equals(fa.getHash(tempo))){
                 resultado=consultar(Password,pathImage);
-                resultado=resultado+" Todo Bien. ";
+                resultado=resultado+" \nTodo Bien. ";
                 }
                 
-                else{
-                resultado="Imagen No Valida...Qr no coincide";
+            else{
+                resultado="La información de la imagen no coincide… La imagen pudo haber sido alterada.";
                 }
             } catch (NotFoundException | FormatException | ChecksumException ex) {
                 System.out.println(ex.toString());
-                
+                //resultado="No se puede leer el QR.";
             } catch (IOException ex) {
                System.out.println(ex.getMessage());
             } catch (ReaderException ex) {

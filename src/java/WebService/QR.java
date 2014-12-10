@@ -81,8 +81,9 @@ return hashtext;
         return imagen;       
 }
       
-       public String CreateQR(String message,String Filename) throws WriterException, FileNotFoundException, IOException{
+       public String CreateQR(String message,String Filename,int size) throws WriterException, FileNotFoundException, IOException{
              BitMatrix bm;
+             widthQrCode=size/6;heigthQrCode=size/6;
              File dir = new File(FileAux.QrFolder);
              Writer writer = new QRCodeWriter();                                                 
              bm = writer.encode(message, BarcodeFormat.QR_CODE,widthQrCode, heigthQrCode);

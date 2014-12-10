@@ -38,8 +38,8 @@ public class AppendImage {
      }
       
      public String Append() throws IOException{
-        int h=Width/5;
-         BufferedImage finalImg = new BufferedImage(Width,Height+h,BufferedImage.TYPE_3BYTE_BGR);
+        int h=Width/6; /////--------------tamño del append-------------///////
+         BufferedImage finalImg = new BufferedImage(Width,Height+h+20,BufferedImage.TYPE_3BYTE_BGR);
          finalImg.createGraphics().drawImage(imagen, 0 , 0 , null);  
          finalImg.createGraphics().drawImage(Barra, 0 , Height , null);
          String fname=FileAux.ImageFolder+"/Final"+name+".png";
