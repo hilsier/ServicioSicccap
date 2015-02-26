@@ -261,25 +261,33 @@ return path;
         }                                  
                 return hexString;
   }                
-
+  public String appendTempo=null;
     public String GetSubImage(String image){
         String retpath=null;
      try {
+        BufferedImage biapp=ImageIO.read(new File(image));
         BufferedImage bi= ImageIO.read(new File(image));
         int w=bi.getWidth(); 
         int aux=w/6;/////--------------tamño del append-------------///////
         int h=bi.getHeight()-aux-20;
+        int ha=bi.getHeight();
         BufferedImage bic=new BufferedImage(w,h,BufferedImage.TYPE_3BYTE_BGR);
         bic= bi.getSubimage(0, 0,w,h);
+      /*  BufferedImage append=new BufferedImage(w,aux+20,BufferedImage.TYPE_3BYTE_BGR);
+        append=bi.getSubimage(0,h,w,ha);
+        appendTempo=image+"append.png";*/
         retpath=image+"tempo.png";
         ImageIO.write(bic, "png", new File(retpath));
+       // ImageIO.write(append,"png",new File(appendTempo));
             } catch (IOException ex) {
             ex.printStackTrace();
         }
         return retpath;
         }
 
-
+public String getTempoAppend(){
+    return appendTempo;
+}
 
  
 

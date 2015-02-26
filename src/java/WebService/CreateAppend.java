@@ -17,7 +17,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-
+import java.awt.Font;
 /**
  *
  * @author Yarib
@@ -54,6 +54,9 @@ public class CreateAppend extends JPanel {
         g2.setColor(Color.red);
         aux=h;
         g2.drawImage(qr_image, 100, 10, aux, aux, null);
+        g2.setColor(Color.BLACK);
+        g2.setFont(new Font("TimesRoman", Font.PLAIN, aux/5));
+        g2.drawString("Cotejado con el Original.",120+aux,aux/2);
         //g2.drawImage(info_image,300,20,400,100,null); 
     }
 
